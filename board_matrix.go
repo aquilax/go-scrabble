@@ -22,7 +22,7 @@ func (bm *BoardMatrix) Clean() {
 
 // Get tile at coordinates x, y
 func (bm *BoardMatrix) GetTile(x, y int) (error, *Tile) {
-	err := checkBoundary(x,y)
+	err := checkBoundary(x, y)
 	if err != nil {
 		return err, nil
 	}
@@ -31,7 +31,7 @@ func (bm *BoardMatrix) GetTile(x, y int) (error, *Tile) {
 
 // Place tile at coordinates x, y
 func (bm *BoardMatrix) SetTile(x, y int, tile *Tile) error {
-	err := checkBoundary(x,y)
+	err := checkBoundary(x, y)
 	if err != nil {
 		return err
 	}

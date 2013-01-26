@@ -1,10 +1,9 @@
 package scrabble
 
 type Tile struct {
-	char rune
+	char   rune
 	points int
 }
-
 
 // Creates new tile
 func NewTile(char rune) *Tile {
