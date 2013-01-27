@@ -41,3 +41,14 @@ func (bm *BoardMatrix) SetTile(x, y int, tile *Tile) error {
 	bm[y][x] = tile
 	return nil
 }
+
+func (bm *BoardMatrix) IsFull() bool {
+	for y := 0; y < BOARD_SIZE; y++ {
+		for x := 0; x < BOARD_SIZE; x++ {
+			if bm[y][x] != nil {
+				return false
+			}
+		}
+	}
+	return true
+}
