@@ -15,4 +15,8 @@ func TestcheckBoundary(t *testing.T) {
 	if err2 == nil {
 		t.Error("Wrong boundary check")
 	}
+	err3 := checkBoundary(-1, -1)
+	if err3 == nil {
+		t.Error("Wrong boundary check")
+	}
 }
