@@ -52,3 +52,17 @@ func (bm *BoardMatrix) IsFull() bool {
 	}
 	return true
 }
+
+func (bm *BoardMatrix) CheckMove(move *Move) (error, int) {
+	if len(*move) == 0 {
+		return errors.New("Empty move"), 0
+	}
+	err, direction := move.GetOrientation()
+	if err != nil {
+		return err, 0
+	}
+	//FIXME: continue from here
+	panic(direction)
+	points := 0
+	return nil, points
+}
