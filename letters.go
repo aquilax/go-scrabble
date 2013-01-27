@@ -4,6 +4,13 @@ import (
 	"errors"
 )
 
+const (
+	RACK_SIZE = 8
+
+	LANG_EN = iota
+	LANG_BG
+)
+
 // Letter distribution and tile points from:
 // http://en.wikipedia.org/wiki/Scrabble_letter_distributions
 
@@ -17,9 +24,9 @@ type Letter struct {
 // a tile has more than one rune
 type Letters map[string]Letter
 
-func NewLetters(language string) (error, *Letters) {
+func NewLetters(language int) (error, *Letters) {
 	switch language {
-	case "en":
+	case LANG_EN:
 		return nil, &Letters{
 			" ": {2, 0},
 			"E": {12, 1},
@@ -51,4 +58,20 @@ func NewLetters(language string) (error, *Letters) {
 		}
 	}
 	return errors.New("Language not defined"), nil
+}
+
+// Create new game tile
+func (lt *Letters) NewTile(letter string) *Tile {
+	return &Tile{letter, (*lt)[letter].points}
+}
+
+// Generates all tiles for selected language
+func (lt *Letters) NewTiles() *Tiles {
+	var tiles Tiles
+	for ltr, letter := range *lt {
+		for i := 0; i < letter.count; i++ {
+			tiles = append(tiles, lt.NewTile(ltr))
+		}
+	}
+	return &tiles
 }

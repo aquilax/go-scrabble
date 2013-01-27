@@ -1,12 +1,31 @@
 package scrabble
 
+import (
+	"math/rand"
+)
+
 type Tile struct {
-	char   rune
+	letter string
 	points int
 }
 
-// Creates new tile
-func NewTile(char rune) *Tile {
-	//TODO: Get actual tile points
-	return &Tile{char, 0}
+type Tiles []*Tile
+
+type Rack [RACK_SIZE]*Tile
+
+func (tl *Tiles) NewRack() *Rack {
+	var rack Rack
+	for i := 0; i < RACK_SIZE; i++ {
+		rack[i] = tl.DrawTile()
+	}
+	return &rack
+}
+
+func (tl *Tiles) DrawTile() *Tile {
+	size := len(*tl)
+	index := rand.Intn(size - 1)
+	tile := (*tl)[index]
+	// Remove tile from list
+	*tl = append((*tl)[:index], (*tl)[index+1:]...)
+	return tile
 }
