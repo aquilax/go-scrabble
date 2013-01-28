@@ -57,12 +57,47 @@ func (bm *BoardMatrix) CheckMove(move *Move) (error, int) {
 	if len(*move) == 0 {
 		return errors.New("Empty move"), 0
 	}
-	err, direction := move.GetOrientation()
+	err, direction, index := move.GetOrientation()
 	if err != nil {
+		// Tiles are scattered on the board
 		return err, 0
 	}
 	//FIXME: continue from here
 	panic(direction)
+	panic(index)
 	points := 0
 	return nil, points
+}
+
+func (bm *BoardMatrix) getStart(move *Move, or Orientation, index int) (int, int) {
+	x := 0
+	y := 0
+	switch or {
+	// Look up
+	case OR_VERTICAL:
+		x = index
+		y = move.getMinY()
+		for by := y; by > -1; by-- {
+			_, tile := bm.GetTile(x, by)
+			if tile == nil {
+				y = by
+				break
+			}
+		}
+		y = 0
+	// Look left
+	case OR_HORIZONTAL:
+		x = move.getMinX()
+		y = index
+		for bx := x; bx > -1; bx-- {
+			_, tile := bm.GetTile(bx, y)
+			if tile == nil {
+				x = bx
+				break
+			}
+		}
+		x = 0
+
+	}
+	return x, y
 }
