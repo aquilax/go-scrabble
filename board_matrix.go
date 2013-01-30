@@ -53,20 +53,51 @@ func (bm *BoardMatrix) IsFull() bool {
 	return true
 }
 
-func (bm *BoardMatrix) CheckMove(move *Move) (error, int) {
+func (bm *BoardMatrix) CheckMove(move *Move, rack *Rack) (error, int) {
 	if len(*move) == 0 {
 		return errors.New("Empty move"), 0
 	}
-	err, direction, index := move.GetOrientation()
+	err, orientation, index := move.GetOrientation()
 	if err != nil {
 		// Tiles are scattered on the board
 		return err, 0
 	}
+	var words []*Tiles
+	startx, starty := bm.getStart(move, orientation, index)
+
+	words = append(words, bm.getWord(startx, starty, orientation, move, rack))
+
+
 	//FIXME: continue from here
-	panic(direction)
 	panic(index)
 	points := 0
 	return nil, points
+}
+
+func (bm *BoardMatrix) getWord(x, y int, or Orientation, move *Move, rack *Rack) *Tiles {
+	var tiles Tiles
+	for {
+		// Check board for letter
+		err, tile := bm.GetTile(x, y)
+		if tile != nil && err != nil {
+			tiles = append(tiles, tile)
+		} else {
+			// Check move for letter
+			err, tile := move.GetTile(x, y, rack)
+			if tile != nil && err != nil {
+				tiles = append(tiles, tile)
+			} else {
+				// Empty space || end of the board == terminator
+				break;
+			}
+		}
+		if or == OR_HORIZONTAL {
+			x++
+		} else {
+			y++
+		}
+	}
+	return &Tiles{}
 }
 
 func (bm *BoardMatrix) getStart(move *Move, or Orientation, index int) (int, int) {

@@ -81,3 +81,12 @@ func (m *Move) getMinY() int {
 	}
 	return miny
 }
+
+func (m *Move) GetTile(x, y int, rack *Rack) (error, *Tile) {
+	for rack_id, mt := range *m {
+		if mt.x == x && mt.y == y {
+			return nil, rack[rack_id]
+		}
+	}
+	return errors.New("Tile not found on this position"), nil
+}
