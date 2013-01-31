@@ -28,6 +28,8 @@ func TestFillRack(t *testing.T) {
 	if rack.size() != RACK_SIZE || rack_size >= rack.size() {
 		t.Error("Rack not refilled properly")
 	}
+	//Try to refill again
+	tiles.FillRack(rack)
 }
 
 func TestDrawTile(t *testing.T) {

@@ -21,6 +21,10 @@ func TestClean(t *testing.T) {
 	if get_tile != nil {
 		t.Error("Clean board matrix failed")
 	}
+	err := board_matrix.SetTile(999, 999, tile)
+	if err == nil {
+		t.Error("Error in boundary detection")
+	}
 }
 
 func TestGetTile(t *testing.T) {
@@ -37,6 +41,10 @@ func TestGetTile(t *testing.T) {
 	}
 	if get_tile != tile {
 		t.Error("Got wrong tile")
+	}
+	err, _ = board_matrix.GetTile(999,999)
+	if err == nil {
+		t.Error("Error in boundary detection")
 	}
 }
 
